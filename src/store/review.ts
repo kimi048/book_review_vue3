@@ -7,6 +7,8 @@ export const useReview = defineStore('review', {
   state: () => ({
     counter: 0,
     name: 'Eduardo',
+    book_title:'',
+    
   }),
   // optional getters
   getters: {

@@ -9,7 +9,7 @@
 </script>
 
 <template>
-  <router-link to="/login">login</router-link>
+  <!-- <router-link to="/login">login</router-link> -->
   <router-view />
 </template>
 

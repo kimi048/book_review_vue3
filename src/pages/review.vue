@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useAuth } from "../store/auth";
+const Auth = useAuth();
 
 </script>
 
