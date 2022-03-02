@@ -18,6 +18,9 @@ let SignUpForm = ref<Form>({
 const isSignUp = ref(false);
 const Auth = useAuth();
 let {isLoggedin, username, id} = storeToRefs(Auth);
+isLoggedin.value = Auth.loadIsLoggedin()!;
+username.value = Auth.loadId()!;
+id.value = Auth.loadId()!;
 // const submitLogin = () => Auth.submitLogin("kimi", "testing123");
 // const submitSignUp = () => Auth.submitSignUp(SignUpForm.value.username, SignUpForm.value.password)
 const handleSubmit = async() => {
@@ -35,17 +38,20 @@ const handleSubmit = async() => {
 </script>
 
 <template>
-  <h1 class="text-3xl">Hi</h1>
-  <!-- <p @click="submitLogin">Login User</p>
-  <p @click="submitSignUp">SignUp User</p> -->
-  <p>isLoggedin : {{isLoggedin ? "true" : "false"}}</p>
-  <p>username : {{username ? "true" : "false"}}</p>
-  <p>id : {{id ? "true" : "false"}}</p>
+  
   <div class="container mx-auto px-4">
-    <div class="mb-6">
+    <h1 class="text-3xl my-8">Welcome to ReviewPost</h1>
+    <!-- <p @click="submitLogin">Login User</p>
+    <p @click="submitSignUp">SignUp User</p> -->
+    <p>isLoggedin : {{isLoggedin ? "true" : "false"}}</p>
+    <p>username : {{username ? "true" : "false"}}</p>
+    <p>id : {{id ? "true" : "false"}}</p>
+    <div class="my-6">
+      <label for="username">ユーザー名</label><br/>
       <input type="text" name="username" v-model="SignUpForm.username" class="shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
     <div class="mb-6">
+      <label for="password">パスワード</label><br/>
       <input type="password" name="password" v-model="SignUpForm.password" class="shadow appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
     <div class="mb-6 flex space-x-6">

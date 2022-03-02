@@ -10,8 +10,8 @@ export const useAuth = defineStore('auth', {
   // a function that returns a fresh state
   state: () => ({
     isLoggedin: false,
-    username: null,
-    id: null
+    username: '',
+    id: ''
   }),
   // optional getters
   getters: {
@@ -28,6 +28,11 @@ export const useAuth = defineStore('auth', {
       axios.get(URL)
       .then((res)=>{console.log(res.data)});
     },
+    setLocalStorage(id:string,username:string,isLoggedin:boolean){
+      localStorage.setItem('xxx-id',id);
+      localStorage.setItem('xxx-username',username);
+      localStorage.setItem('xxx-isLoggedin',isLoggedin.toString())
+    },
     async submitLogin(username:string, password:string){
       await axios.get(URL,{params:{filterByFormula:"AND({Name}='"+username+"',{Password}='"+password+"')"}})
       .then((res)=>{
@@ -41,7 +46,7 @@ export const useAuth = defineStore('auth', {
           this.$state.isLoggedin = true;
           this.$state.username = res.data.records[0].fields.Name;
           console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
-          // router.push({path:"/mypage"});
+          this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin)
         }
       })
       .catch((err)=>{console.error(err)});
@@ -70,6 +75,25 @@ export const useAuth = defineStore('auth', {
         await this.submitSignUp(username, password);
       }else{
         await this.submitLogin(username, password);
+      }
+    },
+    loadIsLoggedin(){
+      if(localStorage.getItem('xxx-isLoggedin')){
+        if(localStorage.getItem('xxx-isLoggedin')=="true"){
+          return true;
+        }else{
+        return false;
+        }
+      }
+    },
+    loadUsername(){
+      if(localStorage.getItem('xxx-username')){
+        return localStorage.getItem('xxx-username');
+      }
+    },
+    loadId(){
+      if(localStorage.getItem('xxx-id')){
+        return localStorage.getItem('xxx-id');
       }
     }
     // reset() {

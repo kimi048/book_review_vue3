@@ -6,10 +6,12 @@
 // import axios from 'axios';
 // axios.get("https://api.airtable.com/v0/"+ENV_BASE+"/Reviews?api_key="+ENV_API_KEY)
 // .then((res)=>{console.log(res.data)});
+import Nav from "./components/nav.vue";
 </script>
 
 <template>
   <!-- <router-link to="/login">login</router-link> -->
+  <Nav/>
   <router-view />
 </template>
 

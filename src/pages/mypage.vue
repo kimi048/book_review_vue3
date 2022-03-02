@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useAuth } from "../store/auth";
+import {storeToRefs} from 'pinia'
 const Auth = useAuth();
-
-const count = ref(0)
+let {isLoggedin, username, id} = storeToRefs(Auth);
+isLoggedin.value = Auth.loadIsLoggedin()!;
+username.value = Auth.loadId()!;
+id.value = Auth.loadId()!;
 </script>
 
 <template>
