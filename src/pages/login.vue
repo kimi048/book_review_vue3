@@ -32,7 +32,8 @@ const handleSubmit = async() => {
     //   if(isLoggedin.value){router.push("/mypage");}
     //   console.log("Login? "+isLoggedin.value);
     //   })
-                            
+
+const Logout = () => Auth.clearLocalStorage();
 
 
 </script>
@@ -57,6 +58,7 @@ const handleSubmit = async() => {
     <div class="mb-6 flex space-x-6">
         <button class="bg-indigo-700 font-semibold text-white py-2 px-4 rounded" v-on:click="handleSubmit">{{isSignUp ? "ユーザー作成" : "ログイン"}}</button>
         <button class="bg-blue-500 font-semibold text-white py-2 px-4 rounded" @click="isSignUp=!isSignUp">{{isSignUp ? "ログイン画面に切り替える" : "ユーザーを登録する"}}</button>
+        <button class="bg-pink-500 font-semibold text-white py-2 px-4 rounded" @click="Logout">ログアウト</button>
     </div>
 
   </div>

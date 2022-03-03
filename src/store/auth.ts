@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 
 import axios from "axios";
 
+declare const ENV_BASE: string;
+declare const ENV_API_KEY: string;
 const URL = "https://api.airtable.com/v0/"+ENV_BASE+"/Users?api_key="+ENV_API_KEY;
 
 // main is the name of the store. It is unique across your application
@@ -42,9 +44,9 @@ export const useAuth = defineStore('auth', {
           console.log("No user matched");
         }else if(res.data.records.length==1){
           console.log("User found!");
-          this.$state.id = res.data.records[0].id;
-          this.$state.isLoggedin = true;
-          this.$state.username = res.data.records[0].fields.Name;
+          this.id = res.data.records[0].id;
+          this.isLoggedin = true;
+          this.username = res.data.records[0].fields.Name;
           console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
           this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin)
         }
@@ -95,10 +97,12 @@ export const useAuth = defineStore('auth', {
       if(localStorage.getItem('xxx-id')){
         return localStorage.getItem('xxx-id');
       }
+    },
+    clearLocalStorage(){
+      localStorage.clear();
+      this.id = '';
+      this.username = '';
+      this.isLoggedin = false;
     }
-    // reset() {
-    //   // `this` is the store instance
-    //   this.counter = 0
-    // },
   },
 })
