@@ -1,40 +1,32 @@
 <script setup lang="ts">
 import { ref,onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAuth } from "../store/auth";
-import { useReview } from "../store/review";
+import { useReview } from '../store/review';
 import {storeToRefs} from 'pinia';
 
-// init store
 const Auth = useAuth();
 const Review = useReview();
 
-// auto login
+//init auth
 let {isLoggedin, username, id} = storeToRefs(Auth);
 isLoggedin.value = Auth.loadIsLoggedin()!;
 username.value = Auth.loadUsername()!;
 id.value = Auth.loadId()!;
 
-
-let { reviews } = storeToRefs(Review)
-
-const fetchMyReviews =async()=> await Review.fetchMyReviews(username.value);
-onMounted(async()=>{
-  console.log("Mounted");
-  const data = await fetchMyReviews();
-  reviews.value=data.records;
-  console.log("hogehoge");
-  console.log(data);
-  console.log("Mounted2");
-});
-
+const allReviews = async() => await Review.allReviews();
 const deleteReview = (id:string) => Review.deleteReview(id);
-const reviewById = (id:string) => Review.reviewById(id);
+let { reviews } = storeToRefs(Review);
+
+onMounted(async() => {
+  const data = await allReviews();
+  reviews.value = data.records;
+  console.log(reviews.value);
+});
 </script>
 
 <template>
-  <h1>mypage</h1>
-  <button class="bg-indigo-700 font-semibold text-white py-2 px-4 rounded" @click="fetchMyReviews">fetch</button>
-  <br/>
+  <h1>review</h1>
   <div class="flex flex-col">
     <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -70,8 +62,10 @@ const reviewById = (id:string) => Review.reviewById(id);
                                 {{review.fields.rating}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
+                              <div v-if="review.fields.reviewer==username">
                                 <router-link :to="'/review/'+review.id" class="text-blue-600 dark:text-blue-500 hover:underline mr-5 inline-block">Edit</router-link>
                                 <p @click="deleteReview(review.id)" class="text-red-600 dark:text-red-500 hover:underline inline-block">Delete</p>
+                              </div>
                             </td>
                         </tr>
                     </tbody>
@@ -80,4 +74,6 @@ const reviewById = (id:string) => Review.reviewById(id);
         </div>
     </div>
 </div>
+  <button class="bg-indigo-700 font-semibold text-white py-2 px-4 rounded" v-on:click="allReviews">fetch</button>
+  
 </template>

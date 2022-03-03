@@ -58,6 +58,20 @@ export const useReview = defineStore('review', {
         }
       )
     },
+    async allReviews(){
+      return await axios.get(BASEURL,{
+        headers:{
+          "Authorization":"Bearer key0CcvAWeyENlW6n",
+          "Content-Type":"application/json"
+        }
+      }).then(
+        res => {
+          console.log("reviewbyid");
+          console.log(res.data);
+          return res.data;
+        }
+      )
+    },
     async initFields(id:string|string[]){
       const data = await this.reviewById(id);
       this.book_title = data.fields.book_title;
@@ -70,7 +84,6 @@ export const useReview = defineStore('review', {
       return date.toISOString().split('T')[0];
     },
     async newPost(username:string,book_title:string, rating:number, review:string){
-      // console.log(username+"/"+book_title+"/"+rating+"/"+review);
       await axios.post(BASEURL,{
         "records":[
           {

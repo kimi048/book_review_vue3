@@ -4,7 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import HelloWorld from './components/HelloWorld.vue';
 import Login from './pages/login.vue';
-import Review from './pages/review.vue';
+import ReviewLists from './pages/reviewLists.vue';
 import Submit from './pages/submit.vue';
 import Mypage from './pages/mypage.vue';
 
@@ -19,7 +19,7 @@ const routes = [
   },
   {
     path: '/review',
-    component: Review
+    component: ReviewLists
   },
   {
     //id=="add"の時はnew post

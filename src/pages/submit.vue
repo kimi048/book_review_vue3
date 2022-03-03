@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute,useRouter } from 'vue-router';
 import { useAuth } from "../store/auth";
 import { useReview } from '../store/review';
 import {storeToRefs} from 'pinia';
@@ -22,12 +22,13 @@ console.log((new Date()).toISOString().split('T')[0]);
 
 //using route
 const route = useRoute();
+const router = useRouter();
 const isNew:boolean = route.params.id=="new" ? true : false;
 if(!isNew){
   Review.initFields(route.params.id);
-  // if(reviewer.value==''){
-  //   $router
-  // }
+  if(reviewer.value==''){
+    router.push("/mypage");
+  }
 }
 
 const newPost = () => Review.newPost(username.value,book_title.value,Number(rating.value),review.value);
