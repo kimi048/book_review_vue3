@@ -19,7 +19,7 @@ const isSignUp = ref(false);
 const Auth = useAuth();
 let {isLoggedin, username, id} = storeToRefs(Auth);
 isLoggedin.value = Auth.loadIsLoggedin()!;
-username.value = Auth.loadId()!;
+username.value = Auth.loadUsername()!;
 id.value = Auth.loadId()!;
 // const submitLogin = () => Auth.submitLogin("kimi", "testing123");
 // const submitSignUp = () => Auth.submitSignUp(SignUpForm.value.username, SignUpForm.value.password)

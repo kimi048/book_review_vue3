@@ -22,6 +22,7 @@ const routes = [
     component: Review
   },
   {
+    //id=="add"の時はnew post
     path: '/review/:id',
     component: Submit
   },

@@ -48,7 +48,7 @@ const reviewById = (id:string) => Review.reviewById(id);
                                 Reviewer
                             </th>
                             <th scope="col" class="py-3 px-6 text-xs font-medium tracking-wider text-left text-gray-700 uppercase dark:text-gray-400">
-                                Starss
+                                Rating
                             </th>
                             <th scope="col" class="relative py-3 px-6">
                                 <span class="sr-only">Edit</span>
@@ -66,10 +66,10 @@ const reviewById = (id:string) => Review.reviewById(id);
                             </td>
                             
                             <td class="py-4 px-6 text-sm text-gray-500 whitespace-nowrap dark:text-gray-400">
-                                5
+                                {{review.fields.rating}}
                             </td>
                             <td class="py-4 px-6 text-sm font-medium text-right whitespace-nowrap">
-                                <p href="#" class="text-blue-600 dark:text-blue-500 hover:underline mr-5 inline-block">Edit</p>
+                                <router-link :to="'/review/'+review.id" class="text-blue-600 dark:text-blue-500 hover:underline mr-5 inline-block">Edit</router-link>
                                 <p @click="deleteReview(review.id)" class="text-red-600 dark:text-red-500 hover:underline inline-block">Delete</p>
                             </td>
                         </tr>
