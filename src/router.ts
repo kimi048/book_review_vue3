@@ -11,7 +11,7 @@ import Mypage from './pages/mypage.vue';
 const routes = [
   {
     path: '/',
-    component: HelloWorld  // HelloWorldコンポーネントルーティング
+    component: ReviewLists  // HelloWorldコンポーネントルーティング
   },
   {
     path: '/login',

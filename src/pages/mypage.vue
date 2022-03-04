@@ -3,7 +3,7 @@ import { ref,onMounted } from 'vue';
 import { useAuth } from "@/store/auth";
 import { useReview } from "@/store/review";
 import {storeToRefs} from 'pinia';
-import { RouterLink } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
 // init store
 const Auth = useAuth();
@@ -31,7 +31,7 @@ type Reviews ={
 }
 
 //using any
-let { reviews } = storeToRefs<any>(Review);
+let { reviews } = storeToRefs(Review);
 
 const fetchMyReviews =async()=> await Review.fetchMyReviews(username.value);
 onMounted(async()=>{
@@ -40,7 +40,10 @@ onMounted(async()=>{
   reviews.value=data.records;
 });
 
-const deleteReview = (id:string) => Review.deleteReview(id);
+// const router = useRouter();
+const deleteReview = (id:string) => {
+  Review.deleteReview(id);
+};
 </script>
 
 <template>
@@ -93,5 +96,8 @@ const deleteReview = (id:string) => Review.deleteReview(id);
           </div>
       </div>
   </div>
+    <router-link to="/review/new">
+        <button class="bg-indigo-700 font-semibold text-white py-2 px-4 mt-8 rounded">New Post</button>
+    </router-link>
 </div>
 </template>

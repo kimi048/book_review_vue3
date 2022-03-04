@@ -3,6 +3,9 @@ module.exports = {
   media: false, // or 'media' or 'class'
   content: [],
   theme: {
+    // screens: {
+    //   'xsm': '320px',
+    // },
     extend: {},
   },
   plugins: [],

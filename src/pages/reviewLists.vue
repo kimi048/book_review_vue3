@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref,onMounted } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import { useAuth } from "@/store/auth";
 import { useReview } from '@/store/review';
@@ -22,13 +22,13 @@ let { reviews } = storeToRefs<any>(Review);
 onMounted(async() => {
   const data = await allReviews();
   reviews.value = data.records;
-  console.log(reviews.value);
+//   console.log(reviews.value);
 });
 </script>
 
 <template>
   <div class="container">
-    <h1>review</h1>
+    <h1>Review posts by everyone</h1>
     <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block py-2 min-w-full sm:px-6 lg:px-8">
@@ -76,6 +76,8 @@ onMounted(async() => {
             </div>
         </div>
     </div>
-    <button class="bg-indigo-700 font-semibold text-white py-2 px-4 rounded" v-on:click="allReviews">fetch</button>
+    <router-link to="/review/new">
+        <button class="bg-indigo-700 font-semibold text-white py-2 px-4 mt-8 rounded">New Post</button>
+    </router-link>
     </div>
 </template>

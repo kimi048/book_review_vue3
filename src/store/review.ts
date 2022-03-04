@@ -1,10 +1,25 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
+import { isTemplateNode } from '@vue/compiler-core';
 
 declare const ENV_BASE: string;
 declare const ENV_API_KEY: string;
 const BASEURL ="https://api.airtable.com/v0/"+ENV_BASE+"/Reviews";
 const URL = "https://api.airtable.com/v0/"+ENV_BASE+"/Reviews?api_key="+ENV_API_KEY;
+
+
+type ReviewFields = {
+  book_title?: string,
+  date?: string,
+  rating?: number,
+  review?: string,
+  reviewer?: string
+}
+type ReviewIndex = {
+  id:string,
+  fields:ReviewFields[]
+}
+
 // main is the name of the store. It is unique across your application
 // and will appear in devtools
 export const useReview = defineStore('review', {
@@ -15,7 +30,8 @@ export const useReview = defineStore('review', {
     reviewer:'',
     review:'',
     date:'',
-    reviews:[]
+    reviews:[],
+    isNew:false
   }),
   // optional getters
   getters: {
@@ -24,16 +40,16 @@ export const useReview = defineStore('review', {
   // optional actions
   actions: {
     async fetchMyReviews(username:string){
-      return await axios.get(URL,{params:{filterByFormula:"{reviewer}='"+username+"'"}})
-      .then(res => {
+      const res= await axios.get(URL,{params:{filterByFormula:"{reviewer}='"+username+"'"}})
+      const data =res.data;
         // console.log(res.data);
-        return res.data;
-      })
+        return data;
+      
     },
-    deleteReview(id:string){
+    async deleteReview(id:string){
       const alert = confirm("本当に消去しますか？");
       if (alert){
-        axios.delete(BASEURL+"/"+id,{
+        return await axios.delete(BASEURL+"/"+id,{
           headers:{
             "Authorization":"Bearer key0CcvAWeyENlW6n",
             "Content-Type":"application/json"
@@ -42,7 +58,7 @@ export const useReview = defineStore('review', {
           res => {
             console.log("reviewbyid");
             console.log(res.data);
-            // this.reviews
+            this.reviews=this.reviews.filter((item:ReviewIndex)=> {return item.id!=id})
             return res.data;
           }
         )
@@ -106,7 +122,9 @@ export const useReview = defineStore('review', {
           "Authorization":"Bearer key0CcvAWeyENlW6n",
           "Content-Type":"application/json"
         }
-      }).then((res)=>{console.log(res.data)})
+      }).then((res)=>{
+        console.log(res.data);
+      })
       .catch((err)=>{console.error(err)});
     },
     async updatePost(id:string|string[],username:string,book_title:string, rating:number, review:string){

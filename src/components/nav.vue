@@ -1,31 +1,39 @@
 <script setup lang="ts">
 import { useAuth } from "@/store/auth";
+import { useReview } from "@/store/review";
 import { storeToRefs } from "pinia";
 import { useRouter } from "vue-router";
 
 const Auth = useAuth();
+const Review = useReview();
 const router = useRouter();
+
+const {isNew} = storeToRefs(Review);
 
 const Logout = () => {
   Auth.clearLocalStorage();
   router.push('/login');
 }
 let { isLoggedin, isSignUpPage } = storeToRefs(Auth);
+const trueIsNew= () => isNew.value=true;
 </script>
 <template>
   <nav class="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
   <div class="container flex flex-wrap justify-between items-center mx-auto">
-  <a href="#" class="flex items-center">
+  <a href="/" class="flex items-center">
       <img src="@/assets/logo.png" class="mr-3 h-6 sm:h-10" alt="Logo" />
       <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">ReviewPost</span>
   </a>
   <div class="flex md:order-2">
     <div v-if="isLoggedin">
+      <router-link to="/review/new">
+        <button @click="trueIsNew" class="bg-indigo-700 font-semibold text-white py-2 px-4 mr-3 rounded-lg hidden sm:inline-block">New Post</button>
+    </router-link>
       <button type="button" @click="Logout" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Logout</button>
     </div>
     <div v-else>
       <router-link to="/login">
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
+        <button @click="isSignUpPage=false" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
       </router-link>
       <button @click="isSignUpPage=true" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign Up</button>
     </div>
