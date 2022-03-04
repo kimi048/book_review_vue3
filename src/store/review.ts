@@ -31,18 +31,22 @@ export const useReview = defineStore('review', {
       })
     },
     deleteReview(id:string){
-      axios.delete(BASEURL+"/"+id,{
-        headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
-          "Content-Type":"application/json"
-        }
-      }).then(
-        res => {
-          console.log("reviewbyid");
-          console.log(res.data);
-          return res.data;
-        }
-      )
+      const alert = confirm("本当に消去しますか？");
+      if (alert){
+        axios.delete(BASEURL+"/"+id,{
+          headers:{
+            "Authorization":"Bearer key0CcvAWeyENlW6n",
+            "Content-Type":"application/json"
+          }
+        }).then(
+          res => {
+            console.log("reviewbyid");
+            console.log(res.data);
+            // this.reviews
+            return res.data;
+          }
+        )
+      }
     },
     async reviewById(id:string|string[]){
       return await axios.get(BASEURL+"/"+id,{
@@ -72,13 +76,14 @@ export const useReview = defineStore('review', {
         }
       )
     },
-    async initFields(id:string|string[]){
-      const data = await this.reviewById(id);
+    async initFields(postid:string|string[]){
+      const data = await this.reviewById(postid);
       this.book_title = data.fields.book_title;
       this.rating = data.fields.rating;
       this.review = data.fields.review;
       this.date = data.fields.date;
       this.reviewer = data.fields.reviewer;
+      console.log("end of init Fields");
     },
     dateToString(date:Date){
       return date.toISOString().split('T')[0];

@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-
 import axios from "axios";
 
 declare const ENV_BASE: string;
@@ -13,7 +12,8 @@ export const useAuth = defineStore('auth', {
   state: () => ({
     isLoggedin: false,
     username: '',
-    id: ''
+    id: '',
+    isSignUpPage: false
   }),
   // optional getters
   getters: {

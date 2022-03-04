@@ -1,0 +1,11 @@
+@layer base{
+  h1{
+    @apply text-3xl my-3
+  }
+}
+
+@layer components {
+  .container{
+    @apply mx-auto px-4;
+  }
+}

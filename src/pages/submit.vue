@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute,useRouter } from 'vue-router';
 import { useAuth } from "@/store/auth";
 import { useReview } from '@/store/review';
@@ -24,12 +24,17 @@ console.log((new Date()).toISOString().split('T')[0]);
 const route = useRoute();
 const router = useRouter();
 const isNew:boolean = route.params.id=="new" ? true : false;
-if(!isNew){
-  Review.initFields(route.params.id);
-  if(reviewer.value==''){
-    router.push("/mypage");
+onMounted(async()=>{
+  if(!isNew){
+    console.log("hogehoge");
+    await Review.initFields(route.params.id);
+    
+    console.log(reviewer.value);
+    if(reviewer.value==''){
+      router.push("/mypage");
+    }
   }
-}
+})
 
 const newPost = () => Review.newPost(username.value,book_title.value,Number(rating.value),review.value);
 const updatePost = () => Review.updatePost(route.params.id,username.value,book_title.value,Number(rating.value),review.value);
