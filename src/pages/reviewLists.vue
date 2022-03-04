@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref,onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAuth } from "../store/auth";
-import { useReview } from '../store/review';
+import { useAuth } from "@/store/auth";
+import { useReview } from '@/store/review';
 import {storeToRefs} from 'pinia';
 
 const Auth = useAuth();
@@ -16,7 +16,7 @@ id.value = Auth.loadId()!;
 
 const allReviews = async() => await Review.allReviews();
 const deleteReview = (id:string) => Review.deleteReview(id);
-let { reviews } = storeToRefs(Review);
+let { reviews } = storeToRefs<any>(Review);
 
 onMounted(async() => {
   const data = await allReviews();

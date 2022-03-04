@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useRoute,useRouter } from 'vue-router';
-import { useAuth } from "../store/auth";
-import { useReview } from '../store/review';
+import { useAuth } from "@/store/auth";
+import { useReview } from '@/store/review';
 import {storeToRefs} from 'pinia';
 
 const Auth = useAuth();

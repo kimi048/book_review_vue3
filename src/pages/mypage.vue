@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref,onMounted } from 'vue';
-import { useAuth } from "../store/auth";
-import { useReview } from "../store/review";
+import { useAuth } from "@/store/auth";
+import { useReview } from "@/store/review";
 import {storeToRefs} from 'pinia';
 
 // init store
@@ -14,8 +14,23 @@ isLoggedin.value = Auth.loadIsLoggedin()!;
 username.value = Auth.loadUsername()!;
 id.value = Auth.loadId()!;
 
+type ReviewFields = {
+  book_title?: string,
+  date?: string,
+  rating?: number,
+  review?: string,
+  reviewer?: string
+}
+type ReviewIndex = {
+  id:string,
+  fields:ReviewFields[]
+}
+type Reviews ={
+  
+}
 
-let { reviews } = storeToRefs(Review)
+//using any
+let { reviews } = storeToRefs<any>(Review);
 
 const fetchMyReviews =async()=> await Review.fetchMyReviews(username.value);
 onMounted(async()=>{
