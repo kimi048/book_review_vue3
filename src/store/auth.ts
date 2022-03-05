@@ -48,7 +48,7 @@ export const useAuth = defineStore('auth', {
           this.isLoggedin = true;
           this.username = res.data.records[0].fields.Name;
           console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
-          this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin)
+          this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin);
         }
       })
       .catch((err)=>{console.error(err)});
@@ -69,12 +69,24 @@ export const useAuth = defineStore('auth', {
           "Authorization":"Bearer key0CcvAWeyENlW6n",
           "Content-Type":"application/json"
         }
-      }).then((res)=>{console.log(res.data)})
+      }).then((res)=>{
+        console.log(res.data);
+        this.id = res.data.records[0].id;
+          this.isLoggedin = true;
+          this.username = res.data.records[0].fields.Name;
+          console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
+          this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin);
+      })
       .catch((err)=>{console.error(err)});
     },
     async handleSubmit(isSignUp:boolean, username:string, password:string){
       if(isSignUp){
-        await this.submitSignUp(username, password);
+        if(username==""||password==""){
+          this.isLoggedin=false;
+          return;
+        }else{
+          await this.submitSignUp(username, password);
+        }
       }else{
         await this.submitLogin(username, password);
       }
