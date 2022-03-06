@@ -54,30 +54,47 @@ export const useAuth = defineStore('auth', {
       .catch((err)=>{console.error(err)});
       
     },
+    async checkNamespace(username:string){
+      const res:any = await axios.get(URL,{params:{filterByFormula:"{Name}='"+username+"'"}})
+      if(res.data.records.length==0){
+        console.log("username is available");
+        return true;
+      }else if(res.data.records.length==1){
+        console.log("username is unavailable");
+        return false;
+      }else{
+        console.log("something went wrong in namespace");
+        return false;
+      }
+      
+    }
+    ,
     async submitSignUp(username:string, password:string){
-      await axios.post(URL,{
-        "records":[
-          {
-              "fields":{
-                  "Password": password,
-                  "Name": username
-              }
+      if(await this.checkNamespace(username)){
+        await axios.post(URL,{
+          "records":[
+            {
+                "fields":{
+                    "Password": password,
+                    "Name": username
+                }
+            }
+        ]
+        },{
+          headers:{
+            "Authorization":"Bearer key0CcvAWeyENlW6n",
+            "Content-Type":"application/json"
           }
-      ]
-      },{
-        headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
-          "Content-Type":"application/json"
-        }
-      }).then((res)=>{
-        console.log(res.data);
-        this.id = res.data.records[0].id;
-          this.isLoggedin = true;
-          this.username = res.data.records[0].fields.Name;
-          console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
-          this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin);
-      })
-      .catch((err)=>{console.error(err)});
+        }).then((res)=>{
+          console.log(res.data);
+          this.id = res.data.records[0].id;
+            this.isLoggedin = true;
+            this.username = res.data.records[0].fields.Name;
+            console.log("id:"+this.$state.id+" / Username:"+this.$state.username);
+            this.setLocalStorage(this.$state.id,this.$state.username,this.$state.isLoggedin);
+        })
+        .catch((err)=>{console.error(err)});
+      }
     },
     async handleSubmit(isSignUp:boolean, username:string, password:string){
       if(isSignUp){
