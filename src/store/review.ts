@@ -51,7 +51,7 @@ export const useReview = defineStore('review', {
       if (alert){
         return await axios.delete(BASEURL+"/"+id,{
           headers:{
-            "Authorization":"Bearer key0CcvAWeyENlW6n",
+            "Authorization":"Bearer "+ENV_API_KEY,
             "Content-Type":"application/json"
           }
         }).then(
@@ -67,7 +67,7 @@ export const useReview = defineStore('review', {
     async reviewById(id:string|string[]){
       return await axios.get(BASEURL+"/"+id,{
         headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
+          "Authorization":"Bearer "+ENV_API_KEY,
           "Content-Type":"application/json"
         }
       }).then(
@@ -81,7 +81,7 @@ export const useReview = defineStore('review', {
     async allReviews(){
       return await axios.get(BASEURL,{
         headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
+          "Authorization":"Bearer "+ENV_API_KEY,
           "Content-Type":"application/json"
         }
       }).then(
@@ -119,7 +119,7 @@ export const useReview = defineStore('review', {
       ]
       },{
         headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
+          "Authorization":"Bearer "+ENV_API_KEY,
           "Content-Type":"application/json"
         }
       }).then((res)=>{
@@ -145,7 +145,7 @@ export const useReview = defineStore('review', {
       ]
       },{
         headers:{
-          "Authorization":"Bearer key0CcvAWeyENlW6n",
+          "Authorization":"Bearer "+ENV_API_KEY,
           "Content-Type":"application/json"
         }
       }).then((res)=>{console.log(res.data)})
